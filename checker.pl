@@ -15,7 +15,7 @@ use warnings;
 my $timeFile = "./life.log";			# file to store time recorded by program ( should be in RAM)
 my $programChecked = "program.pl";		# program that will be checked
 my $waitTime = 10;				# time between checks in sec
-my $restartLog = "/var/log/restart.log";	# log where restart events will be recorded
+my $restartLog = "/var/log/watchdog/restart.log";	# log where restart events will be recorded
 my $logTime;			
 my $PID;
 
