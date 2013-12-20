@@ -3,13 +3,18 @@ use strict;
 use warnings;
 
 
-my $file = "./life.log";
+my $logFile = "./life.log";
+my $programChecked = "program.pl";
 my $logTime;
+
+
+my $PID;
+
 
 while(1)
 	{
 
-		open (my $LOG,"<" ,$file) || die "Failed to open $file: $!\n";
+		open (my $LOG,"<" ,$logFile) || die "Failed to open $logFile: $!\n";
 		while(<$LOG>)
 			{
 				$logTime .= $_;
@@ -23,10 +28,18 @@ while(1)
 		
 		if ($timeDiff > 10)
 			{
-				print "Checked program does not give a sign of life, most likely crashed, will kill it and start again\n";
 				# check PID and kill it
-				my $pid = fork();
-				if( $pid == 0 )
+				$PID = `pgrep $programChecked`;
+				print "$programChecked PID is $PID, doesn't work, will kill it\n";
+
+				if ($PID)
+					{
+						kill $PID;
+						print "$programChecked killed\n";
+					}					
+		
+				my $fork = fork();
+				if( $fork == 0 )
 					{
    						print "This is child process\n";
    						system("./program.pl");
